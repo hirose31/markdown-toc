@@ -105,14 +105,19 @@
   "Implementation detail to protect some punctuation characters
   when converting to link.")
 
+(defconst markdown-toc--protection-symbol_ "oo7BeSangoot2iepheir8ohNg9thepeiTh1eeGae3phoo9fah0Fiepahw0Eeni0j")
+
+
 (defun markdown-toc--to-link (title count)
   "Given a TITLE, return the markdown link associated."
   (format "[%s](#%s%s)" title
           (->> title
                downcase
                (replace-regexp-in-string "-" markdown-toc--protection-symbol)
+               (replace-regexp-in-string "_" markdown-toc--protection-symbol_)
                (replace-regexp-in-string "[[:punct:]]" "")
                (replace-regexp-in-string markdown-toc--protection-symbol "-")
+               (replace-regexp-in-string markdown-toc--protection-symbol_ "_")
                (s-replace " " "-"))
           (if (> count 0)
             (concat "-" (number-to-string count))
